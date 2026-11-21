@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Madam Joy Boutique Shop</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:'DM Sans',sans-serif;background:#fffaf7;color:#251b20}
+button{cursor:pointer;font:inherit}
+.top{background:#241a20;color:#fff;text-align:center;padding:11px;font-size:12px;letter-spacing:1.5px}
+header{background:white;position:sticky;top:0;z-index:5;border-bottom:1px solid #eee}
+nav{max-width:1200px;margin:auto;padding:18px;display:flex;align-items:center;justify-content:space-between}
+.logo{font:700 25px 'Playfair Display';color:#b84f73}
+.logo small{display:block;font:10px 'DM Sans';letter-spacing:3px}
+nav a{color:#333;text-decoration:none;margin:0 10px}
+.cart{border:1px solid #e9dce2;background:white;border-radius:30px;padding:10px 16px}
+.hero{max-width:1200px;margin:25px auto;padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.heroText{background:#f4e5eb;padding:55px 40px;border-radius:20px;display:flex;flex-direction:column;justify-content:center}
+.heroText small{color:#b84f73;letter-spacing:3px}
+h1{font:clamp(38px,5vw,68px)/1.1 'Playfair Display';margin:18px 0}
+.heroText p{line-height:1.8;color:#66545d}
+.heroImg{min-height:460px;border-radius:20px;background:url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=85') center/cover}
+.btn{background:#261c22;color:white;border:0;border-radius:40px;padding:14px 22px;text-decoration:none;width:max-content}
+.features{max-width:1200px;margin:auto;padding:15px 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.feature{padding:20px;border:1px solid #eee;border-radius:12px;background:#fff}
+.feature b{display:block;margin-bottom:7px}
+.feature span{font-size:13px;color:#777}
+.shop{max-width:1200px;margin:auto;padding:40px 20px}
+.shop h2{font:36px 'Playfair Display'}
+.categories{display:flex;flex-wrap:wrap;gap:9px;margin:20px 0}
+.categories button{background:white;border:1px solid #e7dbe0;border-radius:25px;padding:10px 16px}
+.categories button.active,.categories button:hover{background:#251b20;color:white}
+.products{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.product{border:1px solid #eee;border-radius:14px;overflow:hidden;background:white}
+.photo{height:280px;background-size:cover;background-position:center}
+.productInfo{padding:15px}
+.productInfo small{color:#888}
+.productInfo h3{font-size:15px;margin:8px 0}
+.priceRow{display:flex;align-items:center;justify-content:space-between}
+.add{border:0;border-radius:50%;background:#f5e7ed;color:#b84f73;width:38px;height:38px;font-size:22px}
+.promo{margin-top:40px;padding:40px;border-radius:18px;background:#281e24;color:white}
+.promo h2{font:35px 'Playfair Display'}
+footer{background:#251a21;color:white;padding:35px;text-align:center;margin-top:40px}
+footer p{color:#ddcbd3}
+.modal{display:none;position:fixed;inset:0;background:#0009;z-index:20;align-items:center;justify-content:center;padding:15px}
+.modal.open{display:flex}
+.modalBox{background:white;padding:25px;border-radius:18px;width:100%;max-width:520px;max-height:95vh;overflow:auto}
+.modalBox h2{font:28px 'Playfair Display'}
+.close{float:right;border:0;border-radius:50%;padding:8px 12px}
+.cartLine{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee}
+.qty button{border:1px solid #eee;background:white;border-radius:6px;padding:4px 10px}
+label{font-size:13px;display:block;margin:12px 0}
+input,select{display:block;width:100%;padding:12px;margin-top:6px;border:1px solid #ddd;border-radius:9px}
+.total{display:flex;justify-content:space-between;font-weight:bold;padding:15px 0}
+.pay{width:100%;background:#b84f73;color:white;border:0;padding:15px;border-radius:10px;margin-top:15px}
+#toast{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#251a20;color:white;padding:14px 20px;border-radius:30px;z-index:50}
+@media(max-width:850px){.hero{grid-template-columns:1fr}.heroImg{min-height:350px}.products{grid-template-columns:repeat(2,1fr)}.features{grid-template-columns:1fr}nav .links{display:none}}
+@media(max-width:500px){.heroText{padding:30px 22px}.photo{height:210px}.products{gap:10px}.productInfo{padding:11px}.shop{padding:30px 14px}}
+</style>
+</head>
+
+<body>
+
+<div class="top">NEW SEASON FASHION • DELIVERY AVAILABLE • SHOP YOUR LOOK</div>
+
+<header>
+<nav>
+<div class="logo">MADAM JOY<small>BOUTIQUE SHOP</small></div>
+<div class="links">
+<a href="#shop">Shop</a>
+<a href="#delivery">Delivery</a>
+</div>
+<button class="cart" onclick="openCart()">Shopping Bag (<span id="count">0</span>)</button>
+</nav>
+</header>
+
+<section class="hero">
+<div class="heroText">
+<small>YOUR STYLE, YOUR STATEMENT</small>
+<h1>Dress like the joy you carry.</h1>
+<p>Discover beautiful fashion for every occasion. From everyday outfits to elegant dresses, shoes, swimwear and accessories.</p>
+<a href="#shop" class="btn">SHOP COLLECTION</a>
+</div>
+<div class="heroImg"></div>
+</section>
+
+<section class="features">
+<div class="feature"><b>♡ Flexible Payments</b><span>Pay a deposit or the full amount.</span></div>
+<div class="feature"><b>🚚 Delivery Available</b><span>Delivery available for items in stock.</span></div>
+<div class="feature"><b>✦ Fashion for Everyone</b><span>Clothes, shoes, bags & accessories.</span></div>
+</section>
+
+<section class="shop" id="shop">
+<h2>Shop Our Collection</h2>
+<p>Find your next favourite outfit.</p>
+
+<div class="categories" id="categories">
+<button class="active" data-cat="All">All Items</button>
+<button data-cat="Dresses">Dresses</button>
+<button data-cat="Tops">Tops</button>
+<button data-cat="Sets">Two-Piece Sets</button>
+<button data-cat="Jeans">Jeans & Pants</button>
+<button data-cat="Shoes">Shoes</button>
+<button data-cat="Swimwear">Bikinis</button>
+<button data-cat="Bags">Bags</button>
+<button data-cat="Accessories">Accessories</button>
+</div>
+
+<div class="products" id="products"></div>
+
+<div class="promo" id="delivery">
+<h2>Love it. Order it. Wear it.</h2>
+<p>Choose your payment option. Delivery is available on items in stock.</p>
+<a href="#shop" class="btn">SHOP NOW</a>
+</div>
+</section>
+
+<footer>
+<h2>Madam Joy Boutique Shop</h2>
+<p>Fashion for every mood, every moment.</p>
+<p>Shop • M-PESA • Delivery</p>
+</footer>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeCart()">
+<div class="modalBox">
+<button class="close" onclick="closeCart()">✕</button>
+<h2>Your Shopping Bag</h2>
+
+<div id="cartList"></div>
+<div class="total"><span>Total</span><span id="total">KSh 0</span></div>
+
+<label>Payment Method
+<select id="paymentMode">
+<option value="full">Pay Full Amount</option>
+<option value="deposit">Pay 30% Deposit</option>
+</select>
+</label>
+
+<label>Delivery option
+<select id="delivery">
+<option value="delivery">Delivery (in-stock items)</option>
+<option value="pickup">Pickup</option>
+</select>
+</label>
+
+<label>Full Name
+<input id="customerName" placeholder="Enter your name">
+</label>
+
+<label>M-PESA Phone Number
+<input id="customerPhone" placeholder="07XXXXXXXX" inputmode="tel">
+</label>
+
+<label>Delivery location / additional notes
+<input id="notes" placeholder="Your location or order notes">
+</label>
+
+<button class="pay" onclick="checkout()">PAY WITH M-PESA STK PUSH</button>
+<p style="font-size:12px;color:#777">Enter your PIN only in the official M-PESA prompt on your phone.</p>
+</div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const products=[
+{id:1,name:"Satin Evening Dress",cat:"Dresses",price:3200,img:"https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=800&q=80"},
+{id:2,name:"Casual Fashion Top",cat:"Tops",price:1450,img:"https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=80"},
+{id:3,name:"Two Piece Outfit",cat:"Sets",price:3800,img:"https://images.unsplash.com/photo-1551232864-3f0890e580d9?auto=format&fit=crop&w=800&q=80"},
+{id:4,name:"Denim Jeans",cat:"Jeans",price:2800,img:"https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80"},
+{id:5,name:"Fashion Heels",cat:"Shoes",price:3500,img:"https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=800&q=80"},
+{id:6,name:"Bikini Set",cat:"Swimwear",price:2400,img:"https://images.unsplash.com/photo-1579758629938-03607ccdbaba?auto=format&fit=crop&w=800&q=80"},
+{id:7,name:"Ladies Handbag",cat:"Bags",price:2600,img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80"},
+{id:8,name:"Floral Summer Dress",cat:"Dresses",price:3300,img:"https://images.unsplash.com/photo-1495385794356-15371f348c31?auto=format&fit=crop&w=800&q=80"},
+{id:9,name:"Casual Sneakers",cat:"Shoes",price:4200,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80"},
+{id:10,name:"Fashion Sunglasses",cat:"Accessories",price:1100,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80"},
+{id:11,name:"Wide Leg Trousers",cat:"Jeans",price:3000,img:"https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80"},
+{id:12,name:"Beach Cover Up",cat:"Swimwear",price:2200,img:"https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=800&q=80"},
+{id:13,name:"Elegant Blouse",cat:"Tops",price:1900,img:"https://images.unsplash.com/photo-1566206091558-7f218b696731?auto=format&fit=crop&w=800&q=80"},
+{id:14,name:"Ladies Sandals",cat:"Shoes",price:2400,img:"https://images.unsplash.com/photo-1562273138-f46be4ebdf33?auto=format&fit=crop&w=800&q=80"},
+{id:15,name:"Crossbody Bag",cat:"Bags",price:2100,img:"https://images.unsplash.com/photo-1590874103328-eac38a0c3c2f?auto=format&fit=crop&w=800&q=80"},
+{id:16,name:"Fashion Accessories",cat:"Accessories",price:900,img:"https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=800&q=80"}
+];
+
+let cart={};
+const money=n=>"KSh "+Number(n).toLocaleString("en-KE");
+
+function renderProducts(cat="All"){
+document.getElementById("products").innerHTML=
+products.filter(p=>cat==="All"||p.cat===cat).map(p=>`
+<div class="product">
+<div class="photo" style="background-image:url('${p.img}')"></div>
+<div class="productInfo">
+<small>${p.cat}</small>
+<h3>${p.name}</h3>
+<div class="priceRow">
+<strong>${money(p.price)}</strong>
+<button class="add" onclick="add(${p.id})">+</button>
+</div>
+</div>
+</div>`).join("");
+}
+
+document.querySelectorAll("#categories button").forEach(btn=>{
+btn.onclick=()=>{
+document.querySelectorAll("#categories button").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+renderProducts(btn.dataset.cat);
+};
+});
+
+function add(id){cart[id]=(cart[id]||0)+1;updateCount();toast("Added to your bag ♡")}
+function updateCount(){document.getElementById("count").textContent=Object.values(cart).reduce((a,b)=>a+b,0)}
+function total(){return Object.entries(cart).reduce((sum,[id,q])=>sum+products.find(p=>p.id==id).price*q,0)}
+function openCart(){document.getElementById("modal").classList.add("open");renderCart()}
+function closeCart(){document.getElementById("modal").classList.remove("open")}
+
+function renderCart(){
+const list=document.getElementById("cartList");
+const entries=Object.entries(cart);
+if(!entries.length){list.innerHTML="<p>Your shopping bag is empty.</p>";document.getElementById("total").textContent=money(0);return;}
+list.innerHTML=entries.map(([id,q])=>{
+const p=products.find(x=>x.id==id);
+return `<div class="cartLine"><span>${p.name}<br><small>${money(p.price)}</small></span>
+<div class="qty"><button onclick="changeQty(${id},-1)">−</button> ${q} <button onclick="changeQty(${id},1)">+</button></div></div>`;
+}).join("");
+document.getElementById("total").textContent=money(total());
+}
+
+function changeQty(id,n){cart[id]=(cart[id]||0)+n;if(cart[id]<=0)delete cart[id];updateCount();renderCart()}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",2500)}
+
+async function checkout(){
+const items=Object.entries(cart).map(([id,q])=>({product_id:Number(id),quantity:q}));
+if(!items.length)return toast("Your bag is empty.");
+
+const name=document.getElementById("customerName").value.trim();
+const phone=document.getElementById("customerPhone").value.trim();
+const notes=document.getElementById("notes").value.trim();
+if(!name||!phone)return toast("Please enter your name and phone.");
+
+const mode=document.getElementById("paymentMode").value;
+const amount=mode==="deposit"?Math.ceil(total()*0.30):total();
+const button=document.querySelector(".pay");
+button.disabled=true;
+button.textContent="Sending STK Push...";
+
+try{
+const res=await fetch("/api/checkout",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+items,name,phone,notes,
+delivery:document.getElementById("delivery").value,
+payment_mode:mode,total:total(),amount
+})
+});
+const data=await res.json();
+if(!res.ok||!data.success)throw new Error(data.message||"Payment failed");
+toast(data.message||"STK Push sent. Check your phone.");
+button.textContent="STK REQUEST SENT";
+setTimeout(()=>{cart={};updateCount();renderCart();closeCart();button.disabled=false;button.textContent="PAY WITH M-PESA STK PUSH"},1500);
+}catch(e){
+toast(e.message);
+button.disabled=false;
+button.textContent="PAY WITH M-PESA STK PUSH";
+}
+}
+renderProducts();
+</script>
+</body>
+  </html>
